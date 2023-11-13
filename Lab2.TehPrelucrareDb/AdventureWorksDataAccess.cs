@@ -65,9 +65,8 @@
                 {
                     currentRow.BeginEdit();
                     currentRow[column.ColumnName] = updatedRow[column.ColumnName];
-                    currentRow.EndEdit(); // This will commit the changes to the row.
+                    currentRow.EndEdit(); 
                 }
-                // Do not call currentRow.AcceptChanges() if you don't want to commit to the database.
             }
         }
 
@@ -76,17 +75,13 @@
         {
             if (_currentIndex >= 0 && _currentIndex < _dataTable.Rows.Count)
             {
-                // Mark the row for deletion.
                 _dataTable.Rows[_currentIndex].Delete();
-                // Don't call AcceptChanges as you don't want to commit changes to the database.
 
-                // If it's the last row, move the index back by one.
                 if (_currentIndex == _dataTable.Rows.Count - 1)
                 {
                     _currentIndex--;
                 }
 
-                // Proceed to update the DataTable to remove the deleted row.
                 _dataTable = _dataTable.AsEnumerable().Where(row => row.RowState != DataRowState.Deleted).CopyToDataTable();
             }
         }
@@ -125,7 +120,7 @@
 
         public DataRow GetFirstRecord(string tableName)
         {
-            ReloadData(tableName); // This repopulates _dataTable with the new table
+            ReloadData(tableName);
             _currentIndex = 0;
             return _dataTable.Rows.Count > 0 ? _dataTable.Rows[0] : null;
         }
